@@ -1301,12 +1301,36 @@
                     if (activeRow) {
                         activeRow.style.display = 'block';
                         
-                        // Load ALL videos first, then play them together
+                        // Prioritized loading: input and ours first, then chatsim and cosmos
                         const videos = activeRow.querySelectorAll('video');
-                        const loadPromises = Array.from(videos).map(video => loadVideo(video));
+                        const videoArray = Array.from(videos);
                         
-                        // Wait for ALL videos to load completely
-                        Promise.all(loadPromises).then(() => {
+                        // Identify videos by their labels
+                        const priorityVideos = []; // input and ours
+                        const secondaryVideos = []; // chatsim and cosmos
+                        
+                        videoArray.forEach(video => {
+                            const videoItem = video.closest('.video-item');
+                            const label = videoItem.querySelector('.video-label');
+                            if (label) {
+                                const labelText = label.textContent.toLowerCase();
+                                if (labelText === 'input' || labelText === 'ours') {
+                                    priorityVideos.push(video);
+                                } else {
+                                    secondaryVideos.push(video);
+                                }
+                            }
+                        });
+                        
+                        // Load priority videos first (input and ours)
+                        const priorityPromises = priorityVideos.map(video => loadVideo(video));
+                        
+                        // After priority videos loaded, load secondary videos
+                        Promise.all(priorityPromises).then(() => {
+                            const secondaryPromises = secondaryVideos.map(video => loadVideo(video));
+                            return Promise.all(secondaryPromises);
+                        }).then(() => {
+                            // Wait for ALL videos to load completely
                             // Extra wait to ensure all videos are truly ready
                             setTimeout(() => {
                                 // Ensure all videos are paused and reset
