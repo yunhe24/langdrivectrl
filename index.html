@@ -1187,70 +1187,55 @@
             const categories = document.querySelectorAll('.video-category');
             const allVideoRows = document.querySelectorAll('.video-row');
 
-            // Token to prevent race conditions when rapidly switching scenes
-            let displayToken = 0;
-
             // jsDelivr CDN configuration
             const USE_CDN = true;
             const CDN_BASE = 'https://cdn.jsdelivr.net/gh/yunhe24/langdrivectrl@v1.2/';
 
-            // Helper: get full URL with or without CDN
-            function fullUrl(path) {
-                return USE_CDN ? (CDN_BASE + path) : path;
-            }
-
-            // Step 1: Prepare video source and start preload
-            function prepareVideo(video) {
-                const src = video.getAttribute('data-src');
-                if (!src) return;
-
-                // Avoid duplicate setup
-                if (video.src) return;
-
-                // Force browser to preload aggressively
-                video.preload = 'auto';
-
-                // Set video source
-                video.src = fullUrl(src);
-
-                // Also update poster to use CDN
-                const poster = video.getAttribute('poster');
-                if (poster && USE_CDN) {
-                    video.poster = fullUrl(poster);
-                }
-
-                video.load();
-            }
-
-            // Step 2: Wait until video is ready to play (using canplaythrough)
-            function waitVideoReady(video) {
+            // Simple function to load a video and show progress
+            function loadVideo(video) {
                 return new Promise((resolve, reject) => {
+                    const src = video.getAttribute('data-src');
+                    if (!src || video.src) {
+                        resolve();
+                        return;
+                    }
+
                     const videoItem = video.closest('.video-item');
-                    const progressDiv = videoItem ? videoItem.querySelector('.video-progress') : null;
-                    const progressText = videoItem ? videoItem.querySelector('.progress-text') : null;
-                    const progressFill = videoItem ? videoItem.querySelector('.progress-fill') : null;
+                    const progressDiv = videoItem.querySelector('.video-progress');
+                    const progressText = videoItem.querySelector('.progress-text');
+                    const progressFill = videoItem.querySelector('.progress-fill');
 
                     // Show progress indicator
                     if (progressDiv) {
                         progressDiv.classList.add('show');
                     }
 
+                    // Set video source (with CDN if enabled)
+                    const videoSrc = USE_CDN ? CDN_BASE + src : src;
+                    video.src = videoSrc;
+                    
+                    // Also update poster to use CDN
+                    const poster = video.getAttribute('poster');
+                    if (poster && USE_CDN) {
+                        video.poster = USE_CDN ? CDN_BASE + poster : poster;
+                    }
+                    
+                    video.preload = 'auto';
+                    video.load();
+
                     // Update progress bar as video buffers
-                    const onProgress = () => {
+                    video.addEventListener('progress', function onProgress() {
                         if (video.buffered.length > 0 && video.duration > 0) {
                             const buffered = video.buffered.end(0);
                             const duration = video.duration;
-                            const percent = (buffered / duration) * 100;
-                            if (progressText) progressText.textContent = Math.round(percent) + '%';
-                            if (progressFill) progressFill.style.width = Math.round(percent) + '%';
+                            const percent = Math.round((buffered / duration) * 100);
+                            if (progressText) progressText.textContent = percent + '%';
+                            if (progressFill) progressFill.style.width = percent + '%';
                         }
-                    };
+                    });
 
-                    // Wait for canplaythrough event (browser decides video is ready)
-                    const onReady = () => {
-                        video.removeEventListener('progress', onProgress);
-                        video.removeEventListener('error', onError);
-                        
+                    // Wait for video to be ready
+                    video.addEventListener('canplaythrough', function onReady() {
                         if (progressText) progressText.textContent = '100%';
                         if (progressFill) progressFill.style.width = '100%';
                         if (progressDiv) {
@@ -1258,34 +1243,23 @@
                                 progressDiv.classList.remove('show');
                             }, 300);
                         }
-                        resolve();
-                    };
-
-                    const onError = () => {
-                        video.removeEventListener('progress', onProgress);
                         video.removeEventListener('canplaythrough', onReady);
+                        resolve();
+                    });
+
+                    video.addEventListener('error', function onError() {
+                        console.error('Failed to load video:', src);
                         if (progressDiv) {
                             progressDiv.classList.remove('show');
                         }
-                        reject(video.error || new Error("Video loading error"));
-                    };
-
-                    video.addEventListener('progress', onProgress);
-                    video.addEventListener('canplaythrough', onReady, { once: true });
-                    video.addEventListener('error', onError, { once: true });
-
-                    // If already ready, resolve immediately
-                    if (video.readyState >= 4) {
-                        onReady();
-                    }
+                        video.removeEventListener('error', onError);
+                        reject();
+                    });
                 });
             }
 
             // Function to show the selected video row
             function updateDisplay() {
-                // Increment token to invalidate any pending operations from previous calls
-                const token = ++displayToken;
-
                 const selectedType = editingTypeSelect.value;
                 const selectedScene = sceneSelect.value;
 
@@ -1309,45 +1283,16 @@
                     if (activeRow) {
                         activeRow.style.display = 'block';
                         
+                        // Load all 4 videos
                         const videos = activeRow.querySelectorAll('video');
-
-                        // Step 1: Prepare all 4 videos with src and preload
-                        videos.forEach(prepareVideo);
-
-                        // Step 2: Wait for all 4 videos to be ready (canplaythrough)
-                        const readyPromises = Array.from(videos).map(v => waitVideoReady(v));
-
-                        Promise.all(readyPromises).then(() => {
-                            // Critical: discard outdated tasks if user has switched to another scene
-                            if (token !== displayToken) return;
-
-                            // All videos ready, prepare for synchronized playback
-                            // Step 1: Reset all videos to start position
-                            videos.forEach(v => {
-                                v.pause();
-                                v.currentTime = 0;
-                            });
-
-                            // Step 2: Use requestAnimationFrame to ensure all play() calls
-                            // are triggered in the same rendering frame (same millisecond)
-                            requestAnimationFrame(() => {
-                                if (token !== displayToken) return;
-
-                                // Trigger all play() calls as close together as possible
-                                const videoArray = Array.from(videos);
-                                const playPromises = [];
-                                
-                                // Collect all play promises in a tight loop
-                                for (let i = 0; i < videoArray.length; i++) {
-                                    playPromises.push(videoArray[i].play().catch(() => {}));
-                                }
-                                
-                                // Optional: wait for all play() to succeed
-                                Promise.all(playPromises).catch(() => {});
+                        const loadPromises = Array.from(videos).map(video => loadVideo(video));
+                        
+                        // Wait for all videos to load, then play them together
+                        Promise.all(loadPromises).then(() => {
+                            videos.forEach(video => {
+                                video.play().catch(() => {});
                             });
                         }).catch(err => {
-                            // Also check token in error handler
-                            if (token !== displayToken) return;
                             console.error('Some videos failed to load:', err);
                         });
                     }
