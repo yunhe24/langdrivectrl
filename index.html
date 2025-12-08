@@ -1218,17 +1218,34 @@
                     }
                     
                     let hasResolved = false;
+                    let hasMetadata = false;
+                    let simulatedProgress = 0;
+                    let simulationInterval = null;
                     
                     // Show loading start
                     video.addEventListener('loadstart', function onLoadStart() {
                         if (progressText) progressText.textContent = '0%';
                         video.removeEventListener('loadstart', onLoadStart);
+                        
+                        // Start simulated progress during metadata loading
+                        simulationInterval = setInterval(() => {
+                            if (!hasMetadata && simulatedProgress < 5) {
+                                simulatedProgress += 0.5;
+                                if (progressText) progressText.textContent = Math.floor(simulatedProgress) + '%';
+                                if (progressFill) progressFill.style.width = simulatedProgress + '%';
+                            }
+                        }, 300); // Update every 300ms
                     });
                     
                     // Show metadata loaded
                     video.addEventListener('loadedmetadata', function onMetadata() {
-                        if (progressText) progressText.textContent = '1%';
-                        if (progressFill) progressFill.style.width = '1%';
+                        hasMetadata = true;
+                        if (simulationInterval) {
+                            clearInterval(simulationInterval);
+                            simulationInterval = null;
+                        }
+                        if (progressText) progressText.textContent = '5%';
+                        if (progressFill) progressFill.style.width = '5%';
                         video.removeEventListener('loadedmetadata', onMetadata);
                     });
 
@@ -1237,7 +1254,7 @@
                         if (video.buffered.length > 0 && video.duration > 0) {
                             const buffered = video.buffered.end(0);
                             const duration = video.duration;
-                            const percent = Math.round((buffered / duration) * 100);
+                            const percent = Math.max(Math.round((buffered / duration) * 100), 5); // At least 5% (metadata loaded)
                             
                             if (progressText) progressText.textContent = percent + '%';
                             if (progressFill) progressFill.style.width = percent + '%';
@@ -1246,6 +1263,10 @@
                             const actualPercent = (buffered / duration) * 100;
                             if (actualPercent >= 99.9 && !hasResolved) {
                                 hasResolved = true;
+                                if (simulationInterval) {
+                                    clearInterval(simulationInterval);
+                                    simulationInterval = null;
+                                }
                                 if (progressDiv) {
                                     setTimeout(() => {
                                         progressDiv.classList.remove('show');
@@ -1276,6 +1297,10 @@
                                     
                                     if (fullyBuffered || video.readyState >= 4) {
                                         hasResolved = true;
+                                        if (simulationInterval) {
+                                            clearInterval(simulationInterval);
+                                            simulationInterval = null;
+                                        }
                                         if (progressDiv) {
                                             progressDiv.classList.remove('show');
                                         }
@@ -1291,6 +1316,10 @@
 
                     video.addEventListener('error', function onError() {
                         console.error('Failed to load video:', src);
+                        if (simulationInterval) {
+                            clearInterval(simulationInterval);
+                            simulationInterval = null;
+                        }
                         if (progressDiv) {
                             progressDiv.classList.remove('show');
                         }
