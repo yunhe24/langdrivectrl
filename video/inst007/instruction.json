@@ -1,0 +1,4 @@
+{
+  "instruction_type": "trajectory_modification",
+  "instruction": "Make both the silver vehicle and the ego vehicle change to the middle lane"
+}

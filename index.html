@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LangDriveCTRL: Language-Driven Driving Scene Control</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0284c7;
+            --primary-dark: #0369a1;
+            --accent: #ea580c;
+            --accent-light: #fdba74;
+            --bg-dark: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-card-hover: #f1f5f9;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --gradient-start: #0284c7;
+            --gradient-end: #ea580c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: #f5f5f5;
+            color: var(--text-primary);
+            padding: 50px 24px;
+            text-align: center;
+        }
+
+        .title-wrapper {
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0;
+            letter-spacing: -0.02em;
+            line-height: 1.3;
+        }
+
+        .title-gradient {
+            background: linear-gradient(to right, #3b82f6, #8b5cf6, #d946ef, #f97316);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
+        }
+
+        .authors {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px 20px;
+            margin: 16px 0 0 0;
+            font-size: 1.5rem;
+        }
+
+        .authors-second-row {
+            margin-top: 8px;
+        }
+
+        .author {
+            color: var(--text-primary);
+        }
+
+        .author sup {
+            font-size: 0.75em;
+        }
+
+        .affiliations {
+            color: var(--text-primary);
+            font-size: 1.45rem;
+            margin: 16px 0 24px 0;
+        }
+
+        .affiliations sup {
+            font-size: 0.75em;
+        }
+
+        /* Buttons */
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--text-primary);
+            border: 2px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 50px 0;
+            position: relative;
+        }
+
+        .video-section {
+            padding: 30px 0 40px;
+            background: white;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+            max-width: 700px;
+            margin: 0 auto 36px;
+        }
+
+        /* Video Gallery */
+
+        .video-section .container {
+            max-width: 1400px;
+            padding: 0 30px;
+        }
+
+        .controls-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .control-group label {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .control-select {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 1.15rem;
+            font-weight: 600;
+            cursor: pointer;
+            background: white;
+            color: var(--text-primary);
+            border: 2px solid var(--border);
+            transition: all 0.3s;
+            min-width: 220px;
+        }
+
+        .control-select:hover {
+            border-color: var(--primary);
+        }
+
+        .control-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .video-category {
+            display: none;
+        }
+
+        .video-category.active {
+            display: block;
+        }
+
+        .video-row {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .instruction-text {
+            font-size: 1.3rem;
+            font-weight: 400;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            text-align: center;
+            font-style: italic;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .instruction-text::before {
+            content: '"';
+            font-size: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .instruction-text::after {
+            content: '"';
+            font-size: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .video-item {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .video-item video {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            background: #1e293b;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid #9ca3af;
+        }
+
+        .video-item video:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .video-label {
+            margin-top: 12px;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 0.5px;
+        }
+
+        .video-label.input {
+            color: var(--text-primary);
+        }
+
+        .video-label.ours {
+            color: var(--text-primary);
+        }
+
+        @media (max-width: 768px) {
+            .video-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
+        /* Fix cosmos video (1280x704) to match others (1920x1280) display size */
+        .video-item.cosmos video {
+            aspect-ratio: 1920 / 1280;
+            object-fit: cover;
+        }
+
+        /* Abstract Section */
+        .abstract-section {
+            background: #f5f5f5;
+        }
+
+        .abstract-content {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 48px;
+            border: 1px solid var(--border);
+            max-width: 900px;
+            margin: 0 auto;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        .abstract-content p {
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+            line-height: 1.9;
+            text-align: justify;
+        }
+
+        /* Method Section */
+        .method-section {
+            background: white;
+        }
+
+        .method-image {
+            max-width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+            border: 1px solid var(--border);
+        }
+
+        .method-description {
+            max-width: 100%;
+            margin: 20px auto 0;
+            text-align: justify;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            line-height: 1.8;
+        }
+
+        /* BibTeX Section */
+        .bibtex-section {
+            background: #f5f5f5;
+        }
+
+        .bibtex-container {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 32px;
+            border: 1px solid var(--border);
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        .bibtex-code {
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 1.05rem;
+            color: var(--text-primary);
+            white-space: pre-wrap;
+            word-break: break-all;
+            line-height: 1.6;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: var(--bg-card-hover);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 24px;
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            border-top: 1px solid var(--border);
+            background: #f8f9fa;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Smooth transitions for interactive elements */
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        ::selection {
+            background: var(--primary);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="title-wrapper">
+                <h1><span class="title-gradient">LangDriveCTRL</span>: Natural Language Controllable Driving Scene Editing with Multi-modal Agents</h1>
+            </div>
+
+            <div class="authors">
+                <span class="author">Yun He<sup>1</sup></span>
+                <span class="author">Francesco Pittaluga<sup>2</sup></span>
+                <span class="author">Ziyu Jiang<sup>2</sup></span>
+                <span class="author">Matthias Zwicker<sup>1</sup></span>
+            </div>
+            <div class="authors authors-second-row">
+                <span class="author">Manmohan Chandraker<sup>2,3</sup></span>
+                <span class="author">Zaid Tasneem<sup>2</sup></span>
+            </div>
+
+            <p class="affiliations"><sup>1</sup>University of Maryland, College Park&nbsp;&nbsp;&nbsp;&nbsp;<sup>2</sup>NEC Labs America&nbsp;&nbsp;&nbsp;&nbsp;<sup>3</sup>UC San Diego</p>
+
+            <div class="btn-group">
+                <a href="#" class="btn btn-primary">
+                    <i class="fas fa-file-pdf"></i>
+                    Paper
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Results Section -->
+    <section class="video-section" id="results">
+        <div class="container">
+            <h2 class="section-title">Editing Results</h2>
+
+            <div class="controls-wrapper">
+                <div class="control-group">
+                    <label for="editing-type">Editing Type:</label>
+                    <select id="editing-type" class="control-select">
+                        <option value="insertion">Insertion</option>
+                        <option value="removal">Removal</option>
+                        <option value="replacement">Replacement</option>
+                        <option value="trajectory">Trajectory Modification</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="scene-select">Scene:</label>
+                    <select id="scene-select" class="control-select">
+                        <option value="0">Scene 1</option>
+                        <option value="1">Scene 2</option>
+                        <option value="2">Scene 3</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Insertion Category -->
+            <div class="video-category" data-category="insertion">
+                <div class="video-row" data-scene="0">
+                    <div class="instruction-text">Insert a blue sedan 3 meters to the left of ego vehicle, 7 meters ahead that will change to the right lane.</div>
+                    <div class="video-grid">
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst010/input.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label input">Input</p>
+                        </div>
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst010/chatsim.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label">Chatsim</p>
+                        </div>
+                        <div class="video-item cosmos">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst010/cosmos.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label">Cosmos</p>
+                        </div>
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst010/ours.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label ours">Ours</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-row" data-scene="1">
+                    <div class="instruction-text">Insert a black sedan 4 meters to the left of ego vehicle, 9 meters ahead, and make it change to the right lane.</div>
+                    <div class="video-grid">
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst009/input.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label input">Input</p>
+                        </div>
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst009/chatsim.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label">Chatsim</p>
+                        </div>
+                        <div class="video-item cosmos">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst009/cosmos.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label">Cosmos</p>
+                        </div>
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst009/ours.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label ours">Ours</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-row" data-scene="2">
+                    <div class="instruction-text">Add a red sedan 8 meters in front of ego vehicle and make it change to the middle lane.</div>
+                    <div class="video-grid">
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst011/input.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label input">Input</p>
+                        </div>
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst011/chatsim.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label">Chatsim</p>
+                        </div>
+                        <div class="video-item cosmos">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst011/cosmos.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label">Cosmos</p>
+                        </div>
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst011/ours.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label ours">Ours</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Removal Category -->
+            <div class="video-category" data-category="removal">
+                <div class="video-row" data-scene="0">
+                    <div class="instruction-text">Delete the white vehicle on the left.</div>
+                    <div class="video-grid">
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst000/input.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label input">Input</p>
+                        </div>
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst000/chatsim.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label">Chatsim</p>
+                        </div>
+                        <div class="video-item cosmos">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst000/cosmos.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label">Cosmos</p>
+                        </div>
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst000/ours.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label ours">Ours</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-row" data-scene="1">
+                    <div class="instruction-text">Remove the white sedan.</div>
+                    <div class="video-grid">
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst001/input.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label input">Input</p>
+                        </div>
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst001/chatsim.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label">Chatsim</p>
+                        </div>
+                        <div class="video-item cosmos">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst001/cosmos.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label">Cosmos</p>
+                        </div>
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst001/ours.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label ours">Ours</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-row" data-scene="2">
+                    <div class="instruction-text">Remove the vehicle directly ahead.</div>
+                    <div class="video-grid">
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst002/input.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label input">Input</p>
+                        </div>
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst002/chatsim.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label">Chatsim</p>
+                        </div>
+                        <div class="video-item cosmos">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst002/cosmos.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label">Cosmos</p>
+                        </div>
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst002/ours.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label ours">Ours</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Replacement Category -->
+            <div class="video-category" data-category="replacement">
+                <div class="video-row" data-scene="0">
+                    <div class="instruction-text">Change the white sedan on the right to a dark blue sedan.</div>
+                    <div class="video-grid">
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst003/input.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label input">Input</p>
+                        </div>
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst003/chatsim.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label">Chatsim</p>
+                        </div>
+                        <div class="video-item cosmos">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst003/cosmos.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label">Cosmos</p>
+                        </div>
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst003/ours.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label ours">Ours</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-row" data-scene="1">
+                    <div class="instruction-text">Change the black sedan on the right to a blue sedan.</div>
+                    <div class="video-grid">
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst004/input.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label input">Input</p>
+                        </div>
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst004/chatsim.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label">Chatsim</p>
+                        </div>
+                        <div class="video-item cosmos">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst004/cosmos.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label">Cosmos</p>
+                        </div>
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst004/ours.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label ours">Ours</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-row" data-scene="2">
+                    <div class="instruction-text">Replace the black SUV with a white sedan.</div>
+                    <div class="video-grid">
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst005/input.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label input">Input</p>
+                        </div>
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst005/chatsim.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label">Chatsim</p>
+                        </div>
+                        <div class="video-item cosmos">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst005/cosmos.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label">Cosmos</p>
+                        </div>
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst005/ours.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label ours">Ours</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trajectory Modification Category -->
+            <div class="video-category" data-category="trajectory">
+                <div class="video-row" data-scene="0">
+                    <div class="instruction-text">Make the ego vehicle change to the rightmost lane.</div>
+                    <div class="video-grid">
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst006/input.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label input">Input</p>
+                        </div>
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst006/chatsim.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label">Chatsim</p>
+                        </div>
+                        <div class="video-item cosmos">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst006/cosmos.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label">Cosmos</p>
+                        </div>
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst006/ours.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label ours">Ours</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-row" data-scene="1">
+                    <div class="instruction-text">Make both the silver vehicle and the ego vehicle change to the middle lane.</div>
+                    <div class="video-grid">
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst007/input.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label input">Input</p>
+                        </div>
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst007/chatsim.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label">Chatsim</p>
+                        </div>
+                        <div class="video-item cosmos">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst007/cosmos.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label">Cosmos</p>
+                        </div>
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst007/ours.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label ours">Ours</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-row" data-scene="2">
+                    <div class="instruction-text">Have the black SUV on the right change to its left lane.</div>
+                    <div class="video-grid">
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst008/input.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label input">Input</p>
+                        </div>
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst008/chatsim.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label">Chatsim</p>
+                        </div>
+                        <div class="video-item cosmos">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst008/cosmos.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label">Cosmos</p>
+                        </div>
+                        <div class="video-item">
+                            <video controls autoplay muted loop playsinline>
+                                <source src="video/inst008/ours.mp4" type="video/mp4">
+                            </video>
+                            <p class="video-label ours">Ours</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Abstract Section -->
+    <section class="abstract-section" id="abstract">
+        <div class="container">
+            <h2 class="section-title">Abstract</h2>
+            <div class="abstract-content">
+                <p>
+                    LangDriveCTRL is a natural-language-controllable framework for editing real-world driving videos to synthesize diverse traffic scenarios. It leverages explicit 3D scene decomposition to represent driving videos as a scene graph, containing static background and dynamic objects. To enable fine-grained editing and realism, it incorporates an agentic pipeline in which an <em>Orchestrator</em> transforms user instructions into execution graphs that coordinate specialized agents and tools. Specifically, an <em>Object Grounding Agent</em> establishes correspondence between free-form text descriptions and target object nodes in the scene graph; a <em>Behavior Editing Agent</em> generates multi-object trajectories from language instructions; and a <em>Behavior Reviewer Agent</em> iteratively reviews and refines the generated trajectories. The edited scene graph is rendered and then refined using a video diffusion tool to address artifacts introduced by object insertion and significant view changes. LangDriveCTRL supports both object node editing (removal, insertion and replacement) and multi-object behavior editing from a single natural-language instruction. Quantitatively, it achieves nearly 2× higher instruction alignment than the previous SoTA, with superior structural preservation, photorealism, and traffic realism.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Method Section -->
+    <section class="method-section" id="method">
+        <div class="container">
+            <h2 class="section-title">Method</h2>
+            
+            <div style="text-align: center;">
+                <img src="figure/piepline.jpg" alt="Method Pipeline" class="method-image">
+            </div>
+
+            <p class="method-description">
+                <strong>Overall Pipeline.</strong> Given an input video and the user instruction, our pipeline first builds a scene graph, which decomposes the scene into a static background node and multiple dynamic object nodes with their trajectories. To execute the instruction, the orchestrator coordinates agents and tools from different modules to work together: the object query module localizes target object nodes in the scene graph based on text descriptions; the object node editing module performs node removal, insertion, and replacement operations; the behavior editing module generates and refines multi-object trajectories based on a feedback loop; finally, the rendering and refinement module renders the edited scene graph and refines it with a video diffusion tool. While the figure illustrates single-object editing, our pipeline is capable of multi-object editing.
+            </p>
+        </div>
+    </section>
+
+    <!-- BibTeX Section -->
+    <section class="bibtex-section" id="bibtex">
+        <div class="container">
+            <h2 class="section-title">BibTeX</h2>
+            
+            <div class="bibtex-container">
+                <button class="copy-btn" onclick="copyBibtex()">
+                    <i class="fas fa-copy"></i> Copy
+                </button>
+                <code class="bibtex-code">@article{langdrivectrl2025,
+  title     = {LangDriveCTRL: Natural Language Controllable Driving Scene Editing with Multi-modal Agents},
+  author    = {Yun He and Francesco Pittaluga and Ziyu Jiang and Matthias Zwicker and Manmohan Chandraker and Zaid Tasneem},
+  journal   = {arXiv preprint arXiv:XXXX.XXXXX},
+  year      = {2025}
+}</code>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>
+                Website template inspired by <a href="https://nerfies.github.io/" target="_blank">Nerfies</a>.
+                <br>
+                © 2025 LangDriveCTRL. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const editingTypeSelect = document.getElementById('editing-type');
+            const sceneSelect = document.getElementById('scene-select');
+            const categories = document.querySelectorAll('.video-category');
+            const allVideoRows = document.querySelectorAll('.video-row');
+
+            // Function to show the selected video row
+            function updateDisplay() {
+                const selectedType = editingTypeSelect.value;
+                const selectedScene = sceneSelect.value;
+
+                // Hide all categories and rows first
+                categories.forEach(cat => cat.classList.remove('active'));
+                allVideoRows.forEach(row => row.style.display = 'none');
+
+                // Pause all videos
+                document.querySelectorAll('video').forEach(video => {
+                    video.pause();
+                    video.currentTime = 0;
+                });
+
+                // Show the selected category
+                const activeCategory = document.querySelector(`.video-category[data-category="${selectedType}"]`);
+                if (activeCategory) {
+                    activeCategory.classList.add('active');
+                    
+                    // Show only the selected scene within that category
+                    const activeRow = activeCategory.querySelector(`.video-row[data-scene="${selectedScene}"]`);
+                    if (activeRow) {
+                        activeRow.style.display = 'block';
+                        
+                        // Play videos in the active row
+                        setTimeout(() => {
+                            activeRow.querySelectorAll('video').forEach(video => {
+                                video.play().catch(() => {});
+                            });
+                        }, 100);
+                    }
+                }
+            }
+
+            // Add event listeners to selects
+            editingTypeSelect.addEventListener('change', updateDisplay);
+            sceneSelect.addEventListener('change', updateDisplay);
+
+            // Initial display
+            updateDisplay();
+        });
+
+        // Copy BibTeX functionality
+        function copyBibtex() {
+            const bibtex = document.querySelector('.bibtex-code').textContent;
+            navigator.clipboard.writeText(bibtex).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
+
