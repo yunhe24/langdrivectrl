@@ -1222,8 +1222,8 @@
                 video.load();
             }
 
-            // Step 2: Wait until video is almost fully buffered (99.5%)
-            function waitFullyBuffered(video, threshold = 0.995) {
+            // Step 2: Wait until video is ready to play (using canplaythrough)
+            function waitVideoReady(video) {
                 return new Promise((resolve, reject) => {
                     const videoItem = video.closest('.video-item');
                     const progressDiv = videoItem ? videoItem.querySelector('.video-progress') : null;
@@ -1235,55 +1235,48 @@
                         progressDiv.classList.add('show');
                     }
 
+                    // Update progress bar as video buffers
+                    const onProgress = () => {
+                        if (video.buffered.length > 0 && video.duration > 0) {
+                            const buffered = video.buffered.end(0);
+                            const duration = video.duration;
+                            const percent = (buffered / duration) * 100;
+                            if (progressText) progressText.textContent = Math.round(percent) + '%';
+                            if (progressFill) progressFill.style.width = Math.round(percent) + '%';
+                        }
+                    };
+
+                    // Wait for canplaythrough event (browser decides video is ready)
+                    const onReady = () => {
+                        video.removeEventListener('progress', onProgress);
+                        video.removeEventListener('error', onError);
+                        
+                        if (progressText) progressText.textContent = '100%';
+                        if (progressFill) progressFill.style.width = '100%';
+                        if (progressDiv) {
+                            setTimeout(() => {
+                                progressDiv.classList.remove('show');
+                            }, 300);
+                        }
+                        resolve();
+                    };
+
                     const onError = () => {
+                        video.removeEventListener('progress', onProgress);
+                        video.removeEventListener('canplaythrough', onReady);
                         if (progressDiv) {
                             progressDiv.classList.remove('show');
                         }
                         reject(video.error || new Error("Video loading error"));
                     };
 
-                    const updateProgress = (percent) => {
-                        if (progressText) progressText.textContent = Math.round(percent) + '%';
-                        if (progressFill) progressFill.style.width = Math.round(percent) + '%';
-                    };
-
-                    const check = () => {
-                        if (video.error) return onError();
-
-                        const dur = video.duration;
-                        if (!dur || !isFinite(dur)) {
-                            // Metadata not ready yet
-                            return setTimeout(check, 60);
-                        }
-
-                        const b = video.buffered;
-                        if (b && b.length) {
-                            const end = b.end(b.length - 1);
-                            const percent = (end / dur) * 100;
-                            updateProgress(percent);
-
-                            if (end >= dur * threshold) {
-                                // Video almost fully buffered
-                                updateProgress(100);
-                                if (progressDiv) {
-                                    setTimeout(() => {
-                                        progressDiv.classList.remove('show');
-                                    }, 300);
-                                }
-                                return resolve();
-                            }
-                        }
-
-                        setTimeout(check, 120);
-                    };
-
+                    video.addEventListener('progress', onProgress);
+                    video.addEventListener('canplaythrough', onReady, { once: true });
                     video.addEventListener('error', onError, { once: true });
 
-                    // Start checking once metadata is loaded
-                    if (video.readyState >= 1) {
-                        check();
-                    } else {
-                        video.addEventListener('loadedmetadata', check, { once: true });
+                    // If already ready, resolve immediately
+                    if (video.readyState >= 4) {
+                        onReady();
                     }
                 });
             }
@@ -1321,14 +1314,14 @@
                         // Step 1: Prepare all 4 videos with src and preload
                         videos.forEach(prepareVideo);
 
-                        // Step 2: Wait for all 4 videos to be almost fully buffered (99.5%)
-                        const readyPromises = Array.from(videos).map(v => waitFullyBuffered(v, 0.995));
+                        // Step 2: Wait for all 4 videos to be ready (canplaythrough)
+                        const readyPromises = Array.from(videos).map(v => waitVideoReady(v));
 
                         Promise.all(readyPromises).then(() => {
                             // Critical: discard outdated tasks if user has switched to another scene
                             if (token !== displayToken) return;
 
-                            // All videos fully buffered, synchronize playback
+                            // All videos ready, synchronize playback
                             videos.forEach(v => {
                                 v.pause();
                                 v.currentTime = 0;
@@ -1341,7 +1334,7 @@
                         }).catch(err => {
                             // Also check token in error handler
                             if (token !== displayToken) return;
-                            console.error('Some videos failed to buffer fully:', err);
+                            console.error('Some videos failed to load:', err);
                         });
                     }
                 }
