@@ -1187,6 +1187,9 @@
             const categories = document.querySelectorAll('.video-category');
             const allVideoRows = document.querySelectorAll('.video-row');
 
+            // Token to prevent race conditions when rapidly switching scenes
+            let displayToken = 0;
+
             // jsDelivr CDN configuration
             const USE_CDN = true;
             const CDN_BASE = 'https://cdn.jsdelivr.net/gh/yunhe24/langdrivectrl@v1.2/';
@@ -1287,6 +1290,9 @@
 
             // Function to show the selected video row
             function updateDisplay() {
+                // Increment token to invalidate any pending operations from previous calls
+                const token = ++displayToken;
+
                 const selectedType = editingTypeSelect.value;
                 const selectedScene = sceneSelect.value;
 
@@ -1319,6 +1325,9 @@
                         const readyPromises = Array.from(videos).map(v => waitFullyBuffered(v, 0.995));
 
                         Promise.all(readyPromises).then(() => {
+                            // Critical: discard outdated tasks if user has switched to another scene
+                            if (token !== displayToken) return;
+
                             // All videos fully buffered, synchronize playback
                             videos.forEach(v => {
                                 v.pause();
@@ -1330,6 +1339,8 @@
                                 v.play().catch(() => {});
                             });
                         }).catch(err => {
+                            // Also check token in error handler
+                            if (token !== displayToken) return;
                             console.error('Some videos failed to buffer fully:', err);
                         });
                     }
