@@ -1305,9 +1305,21 @@
                         
                         // Wait for ALL videos to load completely
                         Promise.all(loadPromises).then(() => {
-                            // All videos loaded, now play them together
+                            // Ensure all videos are paused and reset
                             videos.forEach(video => {
-                                video.play().catch(() => {});
+                                video.pause();
+                                video.currentTime = 0;
+                            });
+                            
+                            // Use requestAnimationFrame for precise synchronization
+                            // Double RAF ensures we're in a fresh rendering frame
+                            requestAnimationFrame(() => {
+                                requestAnimationFrame(() => {
+                                    // Play all videos in the same frame
+                                    for (let i = 0; i < videos.length; i++) {
+                                        videos[i].play().catch(() => {});
+                                    }
+                                });
                             });
                         }).catch(err => {
                             console.error('Some videos failed to load:', err);
