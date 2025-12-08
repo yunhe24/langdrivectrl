@@ -1242,9 +1242,9 @@
                             if (progressText) progressText.textContent = percent + '%';
                             if (progressFill) progressFill.style.width = percent + '%';
                             
-                            // Wait for 99.5% buffered AND readyState >= 4 (HAVE_ENOUGH_DATA)
+                            // Wait for 100% buffered (complete download)
                             const actualPercent = (buffered / duration) * 100;
-                            if (actualPercent >= 99.5 && video.readyState >= 4 && !hasResolved) {
+                            if (actualPercent >= 99.9 && !hasResolved) {
                                 hasResolved = true;
                                 if (progressDiv) {
                                     setTimeout(() => {
@@ -1261,22 +1261,31 @@
 
                     video.load();
 
-                    // Fallback: resolve after canplaythrough with stricter check
+                    // Fallback: resolve after canplaythrough only if buffered enough
                     video.addEventListener('canplaythrough', function onLoaded() {
                         if (!hasResolved) {
-                            // Wait longer to ensure buffer is really ready
+                            // Check if really buffered close to 100%
                             setTimeout(() => {
-                                if (!hasResolved && video.readyState >= 4) {
-                                    hasResolved = true;
-                                    if (progressDiv) {
-                                        progressDiv.classList.remove('show');
+                                if (!hasResolved) {
+                                    let fullyBuffered = false;
+                                    if (video.buffered.length > 0 && video.duration > 0) {
+                                        const buffered = video.buffered.end(video.buffered.length - 1);
+                                        const percent = (buffered / video.duration) * 100;
+                                        fullyBuffered = percent >= 99;
                                     }
-                                    if (progressText) progressText.textContent = '100%';
-                                    if (progressFill) progressFill.style.width = '100%';
-                                    video.removeEventListener('canplaythrough', onLoaded);
-                                    resolve();
+                                    
+                                    if (fullyBuffered || video.readyState >= 4) {
+                                        hasResolved = true;
+                                        if (progressDiv) {
+                                            progressDiv.classList.remove('show');
+                                        }
+                                        if (progressText) progressText.textContent = '100%';
+                                        if (progressFill) progressFill.style.width = '100%';
+                                        video.removeEventListener('canplaythrough', onLoaded);
+                                        resolve();
+                                    }
                                 }
-                            }, 1500); // Wait 1.5 seconds after canplaythrough
+                            }, 2000); // Wait 2 seconds after canplaythrough for full buffer
                         }
                     });
 
@@ -1316,58 +1325,49 @@
                     if (activeRow) {
                         activeRow.style.display = 'block';
                         
-                        // Prioritized loading: input and ours first, then chatsim and cosmos
+                        // Load ALL 4 videos simultaneously
                         const videos = activeRow.querySelectorAll('video');
-                        const videoArray = Array.from(videos);
+                        const loadPromises = Array.from(videos).map(video => loadVideo(video));
                         
-                        // Identify videos by their labels
-                        const priorityVideos = []; // input and ours
-                        const secondaryVideos = []; // chatsim and cosmos
-                        
-                        videoArray.forEach(video => {
-                            const videoItem = video.closest('.video-item');
-                            const label = videoItem.querySelector('.video-label');
-                            if (label) {
-                                const labelText = label.textContent.toLowerCase();
-                                if (labelText === 'input' || labelText === 'ours') {
-                                    priorityVideos.push(video);
-                                } else {
-                                    secondaryVideos.push(video);
-                                }
-                            }
-                        });
-                        
-                        // Load priority videos first (input and ours)
-                        const priorityPromises = priorityVideos.map(video => loadVideo(video));
-                        
-                        // After priority videos loaded, load secondary videos
-                        Promise.all(priorityPromises).then(() => {
-                            const secondaryPromises = secondaryVideos.map(video => loadVideo(video));
-                            return Promise.all(secondaryPromises);
-                        }).then(() => {
-                            // Wait for ALL videos to load completely
-                            // Extra wait to ensure all videos are truly ready
+                        // Wait for ALL videos to reach 100% buffer
+                        Promise.all(loadPromises).then(() => {
+                            // Short wait to ensure all videos are stable
                             setTimeout(() => {
-                                // Ensure all videos are paused and reset
+                                // Pause and reset all videos to start position
                                 videos.forEach(video => {
                                     video.pause();
                                     video.currentTime = 0;
                                 });
                                 
-                                // Additional wait after reset
-                                setTimeout(() => {
-                                    // Use requestAnimationFrame for precise synchronization
-                                    // Double RAF ensures we're in a fresh rendering frame
-                                    requestAnimationFrame(() => {
-                                        requestAnimationFrame(() => {
-                                            // Play all videos in the same frame
-                                            for (let i = 0; i < videos.length; i++) {
-                                                videos[i].play().catch(() => {});
-                                            }
-                                        });
+                                // Wait for seek operations to complete
+                                const seekPromises = Array.from(videos).map(video => {
+                                    return new Promise(resolve => {
+                                        if (video.seeking) {
+                                            video.addEventListener('seeked', function onSeeked() {
+                                                video.removeEventListener('seeked', onSeeked);
+                                                resolve();
+                                            });
+                                        } else {
+                                            resolve();
+                                        }
                                     });
-                                }, 200); // Wait 200ms after reset
-                            }, 500); // Wait 500ms after all loaded
+                                });
+                                
+                                Promise.all(seekPromises).then(() => {
+                                    // Additional small wait for stability
+                                    setTimeout(() => {
+                                        // Use requestAnimationFrame for precise synchronization
+                                        requestAnimationFrame(() => {
+                                            requestAnimationFrame(() => {
+                                                // Play all videos in the same frame
+                                                for (let i = 0; i < videos.length; i++) {
+                                                    videos[i].play().catch(() => {});
+                                                }
+                                            });
+                                        });
+                                    }, 100);
+                                });
+                            }, 300); // Wait 300ms after all loaded
                         }).catch(err => {
                             console.error('Some videos failed to load:', err);
                             // Still try to play loaded videos
