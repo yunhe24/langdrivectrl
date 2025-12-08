@@ -340,45 +340,8 @@
             object-fit: cover;
         }
 
-        /* Loading Indicator */
-        .video-loading {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 10;
-            pointer-events: none;
-            display: none;
-        }
-
         .video-item {
             position: relative;
-        }
-
-        .spinner {
-            width: 60px;
-            height: 60px;
-            border: 5px solid rgba(102, 126, 234, 0.15);
-            border-top-color: #667eea;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .loading-text {
-            margin-top: 10px;
-            text-align: center;
-            color: #667eea;
-            font-size: 1rem;
-            font-weight: 600;
-        }
-
-        video[data-src]:not([src]) {
-            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
-            min-height: 200px;
         }
 
         /* Abstract Section */
@@ -560,30 +523,18 @@
                     <div class="video-grid">
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst010/input.mp4" poster="video/posters/inst010_input.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label input">Input</p>
                         </div>
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst010/chatsim.mp4" poster="video/posters/inst010_chatsim.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label">Chatsim</p>
                         </div>
                         <div class="video-item cosmos">
                             <video controls muted loop playsinline data-src="video/inst010/cosmos.mp4" poster="video/posters/inst010_cosmos.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label">Cosmos</p>
                         </div>
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst010/ours.mp4" poster="video/posters/inst010_ours.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label ours">Ours</p>
                         </div>
                     </div>
@@ -594,30 +545,18 @@
                     <div class="video-grid">
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst009/input.mp4" poster="video/posters/inst009_input.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label input">Input</p>
                         </div>
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst009/chatsim.mp4" poster="video/posters/inst009_chatsim.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label">Chatsim</p>
                         </div>
                         <div class="video-item cosmos">
                             <video controls muted loop playsinline data-src="video/inst009/cosmos.mp4" poster="video/posters/inst009_cosmos.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label">Cosmos</p>
                         </div>
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst009/ours.mp4" poster="video/posters/inst009_ours.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label ours">Ours</p>
                         </div>
                     </div>
@@ -628,30 +567,18 @@
                     <div class="video-grid">
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst011/input.mp4" poster="video/posters/inst011_input.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label input">Input</p>
                         </div>
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst011/chatsim.mp4" poster="video/posters/inst011_chatsim.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label">Chatsim</p>
                         </div>
                         <div class="video-item cosmos">
                             <video controls muted loop playsinline data-src="video/inst011/cosmos.mp4" poster="video/posters/inst011_cosmos.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label">Cosmos</p>
                         </div>
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst011/ours.mp4" poster="video/posters/inst011_ours.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label ours">Ours</p>
                         </div>
                     </div>
@@ -665,30 +592,18 @@
                     <div class="video-grid">
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst000/input.mp4" poster="video/posters/inst000_input.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label input">Input</p>
                         </div>
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst000/chatsim.mp4" poster="video/posters/inst000_chatsim.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label">Chatsim</p>
                         </div>
                         <div class="video-item cosmos">
                             <video controls muted loop playsinline data-src="video/inst000/cosmos.mp4" poster="video/posters/inst000_cosmos.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label">Cosmos</p>
                         </div>
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst000/ours.mp4" poster="video/posters/inst000_ours.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label ours">Ours</p>
                         </div>
                     </div>
@@ -699,30 +614,18 @@
                     <div class="video-grid">
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst001/input.mp4" poster="video/posters/inst001_input.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label input">Input</p>
                         </div>
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst001/chatsim.mp4" poster="video/posters/inst001_chatsim.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label">Chatsim</p>
                         </div>
                         <div class="video-item cosmos">
                             <video controls muted loop playsinline data-src="video/inst001/cosmos.mp4" poster="video/posters/inst001_cosmos.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label">Cosmos</p>
                         </div>
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst001/ours.mp4" poster="video/posters/inst001_ours.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label ours">Ours</p>
                         </div>
                     </div>
@@ -733,30 +636,18 @@
                     <div class="video-grid">
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst002/input.mp4" poster="video/posters/inst002_input.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label input">Input</p>
                         </div>
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst002/chatsim.mp4" poster="video/posters/inst002_chatsim.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label">Chatsim</p>
                         </div>
                         <div class="video-item cosmos">
                             <video controls muted loop playsinline data-src="video/inst002/cosmos.mp4" poster="video/posters/inst002_cosmos.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label">Cosmos</p>
                         </div>
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst002/ours.mp4" poster="video/posters/inst002_ours.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label ours">Ours</p>
                         </div>
                     </div>
@@ -770,30 +661,18 @@
                     <div class="video-grid">
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst003/input.mp4" poster="video/posters/inst003_input.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label input">Input</p>
                         </div>
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst003/chatsim.mp4" poster="video/posters/inst003_chatsim.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label">Chatsim</p>
                         </div>
                         <div class="video-item cosmos">
                             <video controls muted loop playsinline data-src="video/inst003/cosmos.mp4" poster="video/posters/inst003_cosmos.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label">Cosmos</p>
                         </div>
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst003/ours.mp4" poster="video/posters/inst003_ours.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label ours">Ours</p>
                         </div>
                     </div>
@@ -804,30 +683,18 @@
                     <div class="video-grid">
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst004/input.mp4" poster="video/posters/inst004_input.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label input">Input</p>
                         </div>
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst004/chatsim.mp4" poster="video/posters/inst004_chatsim.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label">Chatsim</p>
                         </div>
                         <div class="video-item cosmos">
                             <video controls muted loop playsinline data-src="video/inst004/cosmos.mp4" poster="video/posters/inst004_cosmos.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label">Cosmos</p>
                         </div>
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst004/ours.mp4" poster="video/posters/inst004_ours.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label ours">Ours</p>
                         </div>
                     </div>
@@ -838,30 +705,18 @@
                     <div class="video-grid">
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst005/input.mp4" poster="video/posters/inst005_input.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label input">Input</p>
                         </div>
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst005/chatsim.mp4" poster="video/posters/inst005_chatsim.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label">Chatsim</p>
                         </div>
                         <div class="video-item cosmos">
                             <video controls muted loop playsinline data-src="video/inst005/cosmos.mp4" poster="video/posters/inst005_cosmos.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label">Cosmos</p>
                         </div>
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst005/ours.mp4" poster="video/posters/inst005_ours.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label ours">Ours</p>
                         </div>
                     </div>
@@ -875,30 +730,18 @@
                     <div class="video-grid">
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst006/input.mp4" poster="video/posters/inst006_input.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label input">Input</p>
                         </div>
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst006/chatsim.mp4" poster="video/posters/inst006_chatsim.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label">Chatsim</p>
                         </div>
                         <div class="video-item cosmos">
                             <video controls muted loop playsinline data-src="video/inst006/cosmos.mp4" poster="video/posters/inst006_cosmos.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label">Cosmos</p>
                         </div>
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst006/ours.mp4" poster="video/posters/inst006_ours.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label ours">Ours</p>
                         </div>
                     </div>
@@ -909,30 +752,18 @@
                     <div class="video-grid">
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst007/input.mp4" poster="video/posters/inst007_input.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label input">Input</p>
                         </div>
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst007/chatsim.mp4" poster="video/posters/inst007_chatsim.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label">Chatsim</p>
                         </div>
                         <div class="video-item cosmos">
                             <video controls muted loop playsinline data-src="video/inst007/cosmos.mp4" poster="video/posters/inst007_cosmos.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label">Cosmos</p>
                         </div>
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst007/ours.mp4" poster="video/posters/inst007_ours.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label ours">Ours</p>
                         </div>
                     </div>
@@ -943,30 +774,18 @@
                     <div class="video-grid">
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst008/input.mp4" poster="video/posters/inst008_input.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label input">Input</p>
                         </div>
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst008/chatsim.mp4" poster="video/posters/inst008_chatsim.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label">Chatsim</p>
                         </div>
                         <div class="video-item cosmos">
                             <video controls muted loop playsinline data-src="video/inst008/cosmos.mp4" poster="video/posters/inst008_cosmos.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label">Cosmos</p>
                         </div>
                         <div class="video-item">
                             <video controls muted loop playsinline data-src="video/inst008/ours.mp4" poster="video/posters/inst008_ours.jpg"></video>
-                            <div class="video-loading">
-                                <div class="spinner"></div>
-                            </div>
                             <p class="video-label ours">Ours</p>
                         </div>
                     </div>
@@ -1052,14 +871,6 @@
                         return;
                     }
 
-                    const videoItem = video.closest('.video-item');
-                    const loadingIndicator = videoItem.querySelector('.video-loading');
-
-                    // Show loading indicator
-                    if (loadingIndicator) {
-                        loadingIndicator.style.display = 'block';
-                    }
-
                     // Use CDN if enabled, otherwise use local path
                     const videoSrc = USE_CDN ? CDN_BASE + src : src;
                     video.src = videoSrc;
@@ -1073,19 +884,12 @@
                     video.load();
 
                     video.addEventListener('loadeddata', function onLoaded() {
-                        // Hide loading indicator
-                        if (loadingIndicator) {
-                            loadingIndicator.style.display = 'none';
-                        }
                         video.removeEventListener('loadeddata', onLoaded);
                         resolve();
                     });
 
                     video.addEventListener('error', function onError() {
                         console.error('Failed to load video:', src);
-                        if (loadingIndicator) {
-                            loadingIndicator.style.display = 'none';
-                        }
                         video.removeEventListener('error', onError);
                         reject();
                     });
