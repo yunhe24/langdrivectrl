@@ -1227,8 +1227,9 @@
                             if (progressText) progressText.textContent = percent + '%';
                             if (progressFill) progressFill.style.width = percent + '%';
                             
-                            // Only resolve when buffered >= 98% to ensure smooth playback
-                            if (percent >= 98 && !hasResolved) {
+                            // Wait for 99.5% buffered AND readyState >= 4 (HAVE_ENOUGH_DATA)
+                            const actualPercent = (buffered / duration) * 100;
+                            if (actualPercent >= 99.5 && video.readyState >= 4 && !hasResolved) {
                                 hasResolved = true;
                                 if (progressDiv) {
                                     setTimeout(() => {
@@ -1245,11 +1246,12 @@
 
                     video.load();
 
-                    // Fallback: resolve after canplaythrough even if not 98% buffered
+                    // Fallback: resolve after canplaythrough with stricter check
                     video.addEventListener('canplaythrough', function onLoaded() {
                         if (!hasResolved) {
+                            // Wait longer to ensure buffer is really ready
                             setTimeout(() => {
-                                if (!hasResolved) {
+                                if (!hasResolved && video.readyState >= 4) {
                                     hasResolved = true;
                                     if (progressDiv) {
                                         progressDiv.classList.remove('show');
@@ -1259,7 +1261,7 @@
                                     video.removeEventListener('canplaythrough', onLoaded);
                                     resolve();
                                 }
-                            }, 500); // Wait a bit more
+                            }, 1500); // Wait 1.5 seconds after canplaythrough
                         }
                     });
 
@@ -1305,22 +1307,28 @@
                         
                         // Wait for ALL videos to load completely
                         Promise.all(loadPromises).then(() => {
-                            // Ensure all videos are paused and reset
-                            videos.forEach(video => {
-                                video.pause();
-                                video.currentTime = 0;
-                            });
-                            
-                            // Use requestAnimationFrame for precise synchronization
-                            // Double RAF ensures we're in a fresh rendering frame
-                            requestAnimationFrame(() => {
-                                requestAnimationFrame(() => {
-                                    // Play all videos in the same frame
-                                    for (let i = 0; i < videos.length; i++) {
-                                        videos[i].play().catch(() => {});
-                                    }
+                            // Extra wait to ensure all videos are truly ready
+                            setTimeout(() => {
+                                // Ensure all videos are paused and reset
+                                videos.forEach(video => {
+                                    video.pause();
+                                    video.currentTime = 0;
                                 });
-                            });
+                                
+                                // Additional wait after reset
+                                setTimeout(() => {
+                                    // Use requestAnimationFrame for precise synchronization
+                                    // Double RAF ensures we're in a fresh rendering frame
+                                    requestAnimationFrame(() => {
+                                        requestAnimationFrame(() => {
+                                            // Play all videos in the same frame
+                                            for (let i = 0; i < videos.length; i++) {
+                                                videos[i].play().catch(() => {});
+                                            }
+                                        });
+                                    });
+                                }, 200); // Wait 200ms after reset
+                            }, 500); // Wait 500ms after all loaded
                         }).catch(err => {
                             console.error('Some videos failed to load:', err);
                             // Still try to play loaded videos
