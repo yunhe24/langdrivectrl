@@ -1200,10 +1200,12 @@
                     const progressText = videoItem.querySelector('.progress-text');
                     const progressFill = videoItem.querySelector('.progress-fill');
 
-                    // Show progress indicator
+                    // Show progress indicator with initial state
                     if (progressDiv) {
                         progressDiv.classList.add('show');
                     }
+                    if (progressText) progressText.textContent = 'Connecting...';
+                    if (progressFill) progressFill.style.width = '0%';
 
                     // Use CDN if enabled, otherwise use local path
                     const videoSrc = USE_CDN ? CDN_BASE + src : src;
@@ -1216,6 +1218,19 @@
                     }
                     
                     let hasResolved = false;
+                    
+                    // Show loading start
+                    video.addEventListener('loadstart', function onLoadStart() {
+                        if (progressText) progressText.textContent = '0%';
+                        video.removeEventListener('loadstart', onLoadStart);
+                    });
+                    
+                    // Show metadata loaded
+                    video.addEventListener('loadedmetadata', function onMetadata() {
+                        if (progressText) progressText.textContent = '1%';
+                        if (progressFill) progressFill.style.width = '1%';
+                        video.removeEventListener('loadedmetadata', onMetadata);
+                    });
 
                     // Monitor download progress
                     video.addEventListener('progress', function onProgress() {
