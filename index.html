@@ -344,6 +344,42 @@
             position: relative;
         }
 
+        /* Video Loading Progress */
+        .video-progress {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 12px;
+            font-size: 24px;
+            font-weight: bold;
+            z-index: 10;
+            display: none;
+        }
+
+        .video-progress.show {
+            display: block;
+        }
+
+        .progress-bar {
+            width: 200px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
         /* Abstract Section */
         .abstract-section {
             background: #f5f5f5;
@@ -522,19 +558,43 @@
                     <div class="instruction-text">Insert a blue sedan 3 meters to the left of ego vehicle, 7 meters ahead that will change to the right lane.</div>
                     <div class="video-grid">
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst010/input.mp4" poster="video/posters/inst010_input.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst010/input.mp4" poster="video/posters/inst010_input.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label input">Input</p>
                         </div>
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst010/chatsim.mp4" poster="video/posters/inst010_chatsim.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst010/chatsim.mp4" poster="video/posters/inst010_chatsim.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label">Chatsim</p>
                         </div>
                         <div class="video-item cosmos">
-                            <video controls muted loop playsinline data-src="video/inst010/cosmos.mp4" poster="video/posters/inst010_cosmos.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst010/cosmos.mp4" poster="video/posters/inst010_cosmos.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label">Cosmos</p>
                         </div>
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst010/ours.mp4" poster="video/posters/inst010_ours.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst010/ours.mp4" poster="video/posters/inst010_ours.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label ours">Ours</p>
                         </div>
                     </div>
@@ -544,19 +604,43 @@
                     <div class="instruction-text">Insert a black sedan 4 meters to the left of ego vehicle, 9 meters ahead, and make it change to the right lane.</div>
                     <div class="video-grid">
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst009/input.mp4" poster="video/posters/inst009_input.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst009/input.mp4" poster="video/posters/inst009_input.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label input">Input</p>
                         </div>
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst009/chatsim.mp4" poster="video/posters/inst009_chatsim.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst009/chatsim.mp4" poster="video/posters/inst009_chatsim.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label">Chatsim</p>
                         </div>
                         <div class="video-item cosmos">
-                            <video controls muted loop playsinline data-src="video/inst009/cosmos.mp4" poster="video/posters/inst009_cosmos.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst009/cosmos.mp4" poster="video/posters/inst009_cosmos.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label">Cosmos</p>
                         </div>
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst009/ours.mp4" poster="video/posters/inst009_ours.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst009/ours.mp4" poster="video/posters/inst009_ours.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label ours">Ours</p>
                         </div>
                     </div>
@@ -566,19 +650,43 @@
                     <div class="instruction-text">Add a red sedan 8 meters in front of ego vehicle and make it change to the middle lane.</div>
                     <div class="video-grid">
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst011/input.mp4" poster="video/posters/inst011_input.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst011/input.mp4" poster="video/posters/inst011_input.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label input">Input</p>
                         </div>
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst011/chatsim.mp4" poster="video/posters/inst011_chatsim.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst011/chatsim.mp4" poster="video/posters/inst011_chatsim.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label">Chatsim</p>
                         </div>
                         <div class="video-item cosmos">
-                            <video controls muted loop playsinline data-src="video/inst011/cosmos.mp4" poster="video/posters/inst011_cosmos.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst011/cosmos.mp4" poster="video/posters/inst011_cosmos.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label">Cosmos</p>
                         </div>
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst011/ours.mp4" poster="video/posters/inst011_ours.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst011/ours.mp4" poster="video/posters/inst011_ours.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label ours">Ours</p>
                         </div>
                     </div>
@@ -591,19 +699,43 @@
                     <div class="instruction-text">Delete the white vehicle on the left.</div>
                     <div class="video-grid">
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst000/input.mp4" poster="video/posters/inst000_input.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst000/input.mp4" poster="video/posters/inst000_input.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label input">Input</p>
                         </div>
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst000/chatsim.mp4" poster="video/posters/inst000_chatsim.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst000/chatsim.mp4" poster="video/posters/inst000_chatsim.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label">Chatsim</p>
                         </div>
                         <div class="video-item cosmos">
-                            <video controls muted loop playsinline data-src="video/inst000/cosmos.mp4" poster="video/posters/inst000_cosmos.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst000/cosmos.mp4" poster="video/posters/inst000_cosmos.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label">Cosmos</p>
                         </div>
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst000/ours.mp4" poster="video/posters/inst000_ours.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst000/ours.mp4" poster="video/posters/inst000_ours.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label ours">Ours</p>
                         </div>
                     </div>
@@ -613,19 +745,43 @@
                     <div class="instruction-text">Remove the white sedan.</div>
                     <div class="video-grid">
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst001/input.mp4" poster="video/posters/inst001_input.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst001/input.mp4" poster="video/posters/inst001_input.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label input">Input</p>
                         </div>
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst001/chatsim.mp4" poster="video/posters/inst001_chatsim.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst001/chatsim.mp4" poster="video/posters/inst001_chatsim.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label">Chatsim</p>
                         </div>
                         <div class="video-item cosmos">
-                            <video controls muted loop playsinline data-src="video/inst001/cosmos.mp4" poster="video/posters/inst001_cosmos.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst001/cosmos.mp4" poster="video/posters/inst001_cosmos.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label">Cosmos</p>
                         </div>
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst001/ours.mp4" poster="video/posters/inst001_ours.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst001/ours.mp4" poster="video/posters/inst001_ours.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label ours">Ours</p>
                         </div>
                     </div>
@@ -635,19 +791,43 @@
                     <div class="instruction-text">Remove the vehicle directly ahead.</div>
                     <div class="video-grid">
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst002/input.mp4" poster="video/posters/inst002_input.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst002/input.mp4" poster="video/posters/inst002_input.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label input">Input</p>
                         </div>
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst002/chatsim.mp4" poster="video/posters/inst002_chatsim.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst002/chatsim.mp4" poster="video/posters/inst002_chatsim.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label">Chatsim</p>
                         </div>
                         <div class="video-item cosmos">
-                            <video controls muted loop playsinline data-src="video/inst002/cosmos.mp4" poster="video/posters/inst002_cosmos.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst002/cosmos.mp4" poster="video/posters/inst002_cosmos.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label">Cosmos</p>
                         </div>
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst002/ours.mp4" poster="video/posters/inst002_ours.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst002/ours.mp4" poster="video/posters/inst002_ours.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label ours">Ours</p>
                         </div>
                     </div>
@@ -660,19 +840,43 @@
                     <div class="instruction-text">Change the white sedan on the right to a dark blue sedan.</div>
                     <div class="video-grid">
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst003/input.mp4" poster="video/posters/inst003_input.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst003/input.mp4" poster="video/posters/inst003_input.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label input">Input</p>
                         </div>
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst003/chatsim.mp4" poster="video/posters/inst003_chatsim.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst003/chatsim.mp4" poster="video/posters/inst003_chatsim.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label">Chatsim</p>
                         </div>
                         <div class="video-item cosmos">
-                            <video controls muted loop playsinline data-src="video/inst003/cosmos.mp4" poster="video/posters/inst003_cosmos.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst003/cosmos.mp4" poster="video/posters/inst003_cosmos.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label">Cosmos</p>
                         </div>
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst003/ours.mp4" poster="video/posters/inst003_ours.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst003/ours.mp4" poster="video/posters/inst003_ours.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label ours">Ours</p>
                         </div>
                     </div>
@@ -682,19 +886,43 @@
                     <div class="instruction-text">Change the black sedan on the right to a blue sedan.</div>
                     <div class="video-grid">
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst004/input.mp4" poster="video/posters/inst004_input.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst004/input.mp4" poster="video/posters/inst004_input.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label input">Input</p>
                         </div>
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst004/chatsim.mp4" poster="video/posters/inst004_chatsim.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst004/chatsim.mp4" poster="video/posters/inst004_chatsim.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label">Chatsim</p>
                         </div>
                         <div class="video-item cosmos">
-                            <video controls muted loop playsinline data-src="video/inst004/cosmos.mp4" poster="video/posters/inst004_cosmos.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst004/cosmos.mp4" poster="video/posters/inst004_cosmos.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label">Cosmos</p>
                         </div>
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst004/ours.mp4" poster="video/posters/inst004_ours.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst004/ours.mp4" poster="video/posters/inst004_ours.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label ours">Ours</p>
                         </div>
                     </div>
@@ -704,19 +932,43 @@
                     <div class="instruction-text">Replace the black SUV with a white sedan.</div>
                     <div class="video-grid">
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst005/input.mp4" poster="video/posters/inst005_input.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst005/input.mp4" poster="video/posters/inst005_input.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label input">Input</p>
                         </div>
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst005/chatsim.mp4" poster="video/posters/inst005_chatsim.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst005/chatsim.mp4" poster="video/posters/inst005_chatsim.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label">Chatsim</p>
                         </div>
                         <div class="video-item cosmos">
-                            <video controls muted loop playsinline data-src="video/inst005/cosmos.mp4" poster="video/posters/inst005_cosmos.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst005/cosmos.mp4" poster="video/posters/inst005_cosmos.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label">Cosmos</p>
                         </div>
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst005/ours.mp4" poster="video/posters/inst005_ours.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst005/ours.mp4" poster="video/posters/inst005_ours.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label ours">Ours</p>
                         </div>
                     </div>
@@ -729,19 +981,43 @@
                     <div class="instruction-text">Make the ego vehicle change to the rightmost lane.</div>
                     <div class="video-grid">
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst006/input.mp4" poster="video/posters/inst006_input.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst006/input.mp4" poster="video/posters/inst006_input.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label input">Input</p>
                         </div>
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst006/chatsim.mp4" poster="video/posters/inst006_chatsim.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst006/chatsim.mp4" poster="video/posters/inst006_chatsim.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label">Chatsim</p>
                         </div>
                         <div class="video-item cosmos">
-                            <video controls muted loop playsinline data-src="video/inst006/cosmos.mp4" poster="video/posters/inst006_cosmos.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst006/cosmos.mp4" poster="video/posters/inst006_cosmos.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label">Cosmos</p>
                         </div>
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst006/ours.mp4" poster="video/posters/inst006_ours.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst006/ours.mp4" poster="video/posters/inst006_ours.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label ours">Ours</p>
                         </div>
                     </div>
@@ -751,19 +1027,43 @@
                     <div class="instruction-text">Make both the silver vehicle and the ego vehicle change to the middle lane.</div>
                     <div class="video-grid">
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst007/input.mp4" poster="video/posters/inst007_input.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst007/input.mp4" poster="video/posters/inst007_input.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label input">Input</p>
                         </div>
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst007/chatsim.mp4" poster="video/posters/inst007_chatsim.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst007/chatsim.mp4" poster="video/posters/inst007_chatsim.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label">Chatsim</p>
                         </div>
                         <div class="video-item cosmos">
-                            <video controls muted loop playsinline data-src="video/inst007/cosmos.mp4" poster="video/posters/inst007_cosmos.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst007/cosmos.mp4" poster="video/posters/inst007_cosmos.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label">Cosmos</p>
                         </div>
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst007/ours.mp4" poster="video/posters/inst007_ours.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst007/ours.mp4" poster="video/posters/inst007_ours.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label ours">Ours</p>
                         </div>
                     </div>
@@ -773,19 +1073,43 @@
                     <div class="instruction-text">Have the black SUV on the right change to its left lane.</div>
                     <div class="video-grid">
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst008/input.mp4" poster="video/posters/inst008_input.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst008/input.mp4" poster="video/posters/inst008_input.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label input">Input</p>
                         </div>
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst008/chatsim.mp4" poster="video/posters/inst008_chatsim.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst008/chatsim.mp4" poster="video/posters/inst008_chatsim.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label">Chatsim</p>
                         </div>
                         <div class="video-item cosmos">
-                            <video controls muted loop playsinline data-src="video/inst008/cosmos.mp4" poster="video/posters/inst008_cosmos.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst008/cosmos.mp4" poster="video/posters/inst008_cosmos.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label">Cosmos</p>
                         </div>
                         <div class="video-item">
-                            <video controls muted loop playsinline data-src="video/inst008/ours.mp4" poster="video/posters/inst008_ours.jpg"></video>
+<video controls muted loop playsinline data-src="video/inst008/ours.mp4" poster="video/posters/inst008_ours.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
                             <p class="video-label ours">Ours</p>
                         </div>
                     </div>
@@ -862,13 +1186,23 @@
             const USE_CDN = true;
             const CDN_BASE = 'https://cdn.jsdelivr.net/gh/yunhe24/langdrivectrl@v1.2/';
 
-            // Function to load video
+            // Function to load video with progress
             function loadVideo(video) {
                 return new Promise((resolve, reject) => {
                     const src = video.getAttribute('data-src');
                     if (!src || video.src) {
                         resolve();
                         return;
+                    }
+
+                    const videoItem = video.closest('.video-item');
+                    const progressDiv = videoItem.querySelector('.video-progress');
+                    const progressText = videoItem.querySelector('.progress-text');
+                    const progressFill = videoItem.querySelector('.progress-fill');
+
+                    // Show progress indicator
+                    if (progressDiv) {
+                        progressDiv.classList.add('show');
                     }
 
                     // Use CDN if enabled, otherwise use local path
@@ -881,15 +1215,39 @@
                         video.poster = CDN_BASE + poster;
                     }
                     
+                    // Monitor download progress
+                    video.addEventListener('progress', function onProgress() {
+                        if (video.buffered.length > 0) {
+                            const buffered = video.buffered.end(0);
+                            const duration = video.duration;
+                            if (duration > 0) {
+                                const percent = Math.round((buffered / duration) * 100);
+                                if (progressText) progressText.textContent = percent + '%';
+                                if (progressFill) progressFill.style.width = percent + '%';
+                            }
+                        }
+                    });
+
                     video.load();
 
-                    video.addEventListener('loadeddata', function onLoaded() {
-                        video.removeEventListener('loadeddata', onLoaded);
+                    video.addEventListener('canplaythrough', function onLoaded() {
+                        // Hide progress when fully loaded
+                        if (progressDiv) {
+                            setTimeout(() => {
+                                progressDiv.classList.remove('show');
+                            }, 300);
+                        }
+                        if (progressText) progressText.textContent = '100%';
+                        if (progressFill) progressFill.style.width = '100%';
+                        video.removeEventListener('canplaythrough', onLoaded);
                         resolve();
                     });
 
                     video.addEventListener('error', function onError() {
                         console.error('Failed to load video:', src);
+                        if (progressDiv) {
+                            progressDiv.classList.remove('show');
+                        }
                         video.removeEventListener('error', onError);
                         reject();
                     });
@@ -921,11 +1279,23 @@
                     if (activeRow) {
                         activeRow.style.display = 'block';
                         
-                        // Load and play videos in the active row
+                        // Load ALL videos first, then play them together
                         const videos = activeRow.querySelectorAll('video');
-                        videos.forEach(video => {
-                            loadVideo(video).then(() => {
+                        const loadPromises = Array.from(videos).map(video => loadVideo(video));
+                        
+                        // Wait for ALL videos to load completely
+                        Promise.all(loadPromises).then(() => {
+                            // All videos loaded, now play them together
+                            videos.forEach(video => {
                                 video.play().catch(() => {});
+                            });
+                        }).catch(err => {
+                            console.error('Some videos failed to load:', err);
+                            // Still try to play loaded videos
+                            videos.forEach(video => {
+                                if (video.readyState >= 3) {
+                                    video.play().catch(() => {});
+                                }
                             });
                         });
                     }
