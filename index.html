@@ -1252,7 +1252,8 @@
                     // Monitor download progress
                     video.addEventListener('progress', function onProgress() {
                         if (video.buffered.length > 0 && video.duration > 0) {
-                            const buffered = video.buffered.end(0);
+                            // Check the LAST buffered range (not the first!)
+                            const buffered = video.buffered.end(video.buffered.length - 1);
                             const duration = video.duration;
                             const percent = Math.max(Math.round((buffered / duration) * 100), 5); // At least 5% (metadata loaded)
                             
@@ -1260,8 +1261,33 @@
                             if (progressFill) progressFill.style.width = percent + '%';
                             
                             // Wait for 100% buffered (complete download)
+                            // Check if last buffered position is very close to duration
                             const actualPercent = (buffered / duration) * 100;
-                            if (actualPercent >= 99.9 && !hasResolved) {
+                            
+                            // Also check if buffering starts from the beginning (no gaps at start)
+                            const startsFromZero = video.buffered.start(0) < 0.1; // Allow small offset
+                            
+                            // Check if there are no gaps (ideally only 1 continuous buffered range)
+                            // If multiple ranges, check if they're continuous
+                            let isFullyBuffered = actualPercent >= 99.9 && startsFromZero;
+                            
+                            // If there's only 1 buffered range, it's continuous
+                            if (video.buffered.length === 1) {
+                                // Perfect: one continuous buffer from start to end
+                            } else if (video.buffered.length > 1) {
+                                // Multiple ranges: check for gaps
+                                // For safety, require at least 99.9% AND last range covers the end
+                                const lastRangeStart = video.buffered.start(video.buffered.length - 1);
+                                const lastRangeEnd = video.buffered.end(video.buffered.length - 1);
+                                const lastRangeDuration = lastRangeEnd - lastRangeStart;
+                                
+                                // If last range is very short or doesn't reach the end, wait more
+                                if (lastRangeDuration < 1 || (duration - lastRangeEnd) > 0.5) {
+                                    isFullyBuffered = false;
+                                }
+                            }
+                            
+                            if (isFullyBuffered && !hasResolved) {
                                 hasResolved = true;
                                 if (simulationInterval) {
                                     clearInterval(simulationInterval);
