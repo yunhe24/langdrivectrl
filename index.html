@@ -1321,15 +1321,29 @@
                             // Critical: discard outdated tasks if user has switched to another scene
                             if (token !== displayToken) return;
 
-                            // All videos ready, synchronize playback
+                            // All videos ready, prepare for synchronized playback
+                            // Step 1: Reset all videos to start position
                             videos.forEach(v => {
                                 v.pause();
                                 v.currentTime = 0;
                             });
 
-                            // Play all together
-                            videos.forEach(v => {
-                                v.play().catch(() => {});
+                            // Step 2: Use requestAnimationFrame to ensure all play() calls
+                            // are triggered in the same rendering frame (same millisecond)
+                            requestAnimationFrame(() => {
+                                if (token !== displayToken) return;
+
+                                // Trigger all play() calls as close together as possible
+                                const videoArray = Array.from(videos);
+                                const playPromises = [];
+                                
+                                // Collect all play promises in a tight loop
+                                for (let i = 0; i < videoArray.length; i++) {
+                                    playPromises.push(videoArray[i].play().catch(() => {}));
+                                }
+                                
+                                // Optional: wait for all play() to succeed
+                                Promise.all(playPromises).catch(() => {});
                             });
                         }).catch(err => {
                             // Also check token in error handler
