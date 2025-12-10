@@ -43,9 +43,14 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 0 24px;
+        }
+        
+        .results-section .container {
+            max-width: 100%;
+            padding: 0 40px;
         }
 
         /* Hero Section */
@@ -284,10 +289,11 @@
 
         .video-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            max-width: 900px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            max-width: 100%;
             margin: 0 auto;
+            width: 100%;
         }
 
         .video-item {
@@ -325,6 +331,21 @@
 
         .video-label.ours {
             color: var(--text-primary);
+        }
+
+        .video-row {
+            margin-bottom: 40px;
+        }
+        
+        .video-row:last-child {
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 1200px) {
+            .video-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+            }
         }
 
         @media (max-width: 768px) {
@@ -540,14 +561,6 @@
                         <option value="removal">Removal</option>
                         <option value="replacement">Replacement</option>
                         <option value="trajectory">Trajectory Modification</option>
-                    </select>
-                </div>
-                <div class="control-group">
-                    <label for="scene-select">Scene:</label>
-                    <select id="scene-select" class="control-select">
-                        <option value="0">Scene 1</option>
-                        <option value="1">Scene 2</option>
-                        <option value="2">Scene 3</option>
                     </select>
                 </div>
             </div>
@@ -1178,7 +1191,6 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const editingTypeSelect = document.getElementById('editing-type');
-            const sceneSelect = document.getElementById('scene-select');
             const categories = document.querySelectorAll('.video-category');
             const allVideoRows = document.querySelectorAll('.video-row');
 
@@ -1358,11 +1370,9 @@
             // Function to show the selected video row
             function updateDisplay() {
                 const selectedType = editingTypeSelect.value;
-                const selectedScene = sceneSelect.value;
 
-                // Hide all categories and rows first
+                // Hide all categories first
                 categories.forEach(cat => cat.classList.remove('active'));
-                allVideoRows.forEach(row => row.style.display = 'none');
 
                 // Pause all videos
                 document.querySelectorAll('video').forEach(video => {
@@ -1370,22 +1380,22 @@
                     video.currentTime = 0;
                 });
 
-                // Show the selected category
+                // Show the selected category with ALL scenes
                 const activeCategory = document.querySelector(`.video-category[data-category="${selectedType}"]`);
                 if (activeCategory) {
                     activeCategory.classList.add('active');
                     
-                    // Show only the selected scene within that category
-                    const activeRow = activeCategory.querySelector(`.video-row[data-scene="${selectedScene}"]`);
-                    if (activeRow) {
-                        activeRow.style.display = 'block';
-                        
-                        // Load ALL 4 videos simultaneously
-                        const videos = activeRow.querySelectorAll('video');
-                        const loadPromises = Array.from(videos).map(video => loadVideo(video));
-                        
-                        // Wait for ALL videos to reach 100% buffer
-                        Promise.all(loadPromises).then(() => {
+                    // Show ALL scenes within that category
+                    const activeRows = activeCategory.querySelectorAll('.video-row');
+                    activeRows.forEach(row => row.style.display = 'block');
+                    
+                    // Load ALL videos in all rows simultaneously
+                    const allVideos = activeCategory.querySelectorAll('video');
+                    const loadPromises = Array.from(allVideos).map(video => loadVideo(video));
+                    
+                    // Wait for ALL videos to reach 100% buffer
+                    Promise.all(loadPromises).then(() => {
+                        const videos = allVideos;
                             // Short wait to ensure all videos are stable
                             setTimeout(() => {
                                 // Pause and reset all videos to start position
@@ -1436,9 +1446,8 @@
                 }
             }
 
-            // Add event listeners to selects
+            // Add event listener to editing type select
             editingTypeSelect.addEventListener('change', updateDisplay);
-            sceneSelect.addEventListener('change', updateDisplay);
 
             // Initial display
             updateDisplay();
