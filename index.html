@@ -160,7 +160,7 @@
 
         .video-section {
             padding: 30px 0 40px;
-            background: white;
+            background: #f5f5f5;
         }
 
         .section-title {
@@ -194,39 +194,41 @@
             flex-wrap: wrap;
         }
 
-        .control-group {
+        .editing-type-buttons {
             display: flex;
-            align-items: center;
-            gap: 12px;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
-        .control-group label {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .control-select {
-            padding: 10px 20px;
-            border-radius: 6px;
+        .editing-type-btn {
+            padding: 12px 28px;
+            border-radius: 8px;
             font-size: 1.15rem;
             font-weight: 600;
             cursor: pointer;
             background: white;
             color: var(--text-primary);
             border: 2px solid var(--border);
-            transition: all 0.3s;
-            min-width: 220px;
+            transition: all 0.3s ease;
         }
 
-        .control-select:hover {
+        .editing-type-btn:hover {
             border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-        .control-select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        .editing-type-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .editing-type-btn.active:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
         }
 
         .video-category {
@@ -389,7 +391,7 @@
 
         /* Method Comparison Section */
         .comparison-section {
-            background: #f5f5f5;
+            background: white;
             padding: 50px 0;
         }
 
@@ -444,6 +446,14 @@
 
         .comparison-card.highlight .comparison-card-title {
             color: #059669;
+        }
+
+        .method-type {
+            display: block;
+            font-size: 1.3rem;
+            font-weight: 400;
+            color: #64748b;
+            margin-top: 6px;
         }
 
         .metric-item {
@@ -632,93 +642,17 @@
         </div>
     </section>
 
-    <!-- Method Comparison Section -->
-    <section class="comparison-section">
-        <div class="container">
-            <h2 class="comparison-title">Method Comparison</h2>
-            <div class="comparison-wrapper">
-                <div class="comparison-cards">
-                <!-- Chatsim Card -->
-                <div class="comparison-card">
-                    <div class="comparison-card-title">Chatsim</div>
-                    <div class="metric-item">
-                        <span class="metric-icon fail">✗</span>
-                        <span class="metric-name">Photorealism</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-icon fail">✗</span>
-                        <span class="metric-name">Instruction Alignment</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-icon pass">✓</span>
-                        <span class="metric-name">Structure Preservation</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-icon fail">✗</span>
-                        <span class="metric-name">Traffic Realism</span>
-                    </div>
-                </div>
-
-                <!-- Cosmos Card -->
-                <div class="comparison-card">
-                    <div class="comparison-card-title">Cosmos</div>
-                    <div class="metric-item">
-                        <span class="metric-icon pass">✓</span>
-                        <span class="metric-name">Photorealism</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-icon fail">✗</span>
-                        <span class="metric-name">Instruction Alignment</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-icon fail">✗</span>
-                        <span class="metric-name">Structure Preservation</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-icon pass">✓</span>
-                        <span class="metric-name">Traffic Realism</span>
-                    </div>
-                </div>
-
-                <!-- Ours Card -->
-                <div class="comparison-card highlight">
-                    <div class="comparison-card-title">Ours</div>
-                    <div class="metric-item">
-                        <span class="metric-icon pass">✓</span>
-                        <span class="metric-name">Photorealism</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-icon pass">✓</span>
-                        <span class="metric-name">Instruction Alignment</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-icon pass">✓</span>
-                        <span class="metric-name">Structure Preservation</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-icon pass">✓</span>
-                        <span class="metric-name">Traffic Realism</span>
-                    </div>
-                </div>
-            </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Video Results Section -->
     <section class="video-section" id="results">
         <div class="container">
             <h2 class="section-title">Editing Results</h2>
 
             <div class="controls-wrapper">
-                <div class="control-group">
-                    <label for="editing-type">Editing Type:</label>
-                    <select id="editing-type" class="control-select">
-                        <option value="insertion">Insertion</option>
-                        <option value="removal">Removal</option>
-                        <option value="replacement">Replacement</option>
-                        <option value="trajectory">Trajectory Modification</option>
-                    </select>
+                <div class="editing-type-buttons">
+                    <button class="editing-type-btn active" data-type="insertion">Insertion</button>
+                    <button class="editing-type-btn" data-type="removal">Removal</button>
+                    <button class="editing-type-btn" data-type="replacement">Replacement</button>
+                    <button class="editing-type-btn" data-type="trajectory">Trajectory Modification</button>
                 </div>
             </div>
 
@@ -1288,6 +1222,88 @@
         </div>
     </section>
 
+    <!-- Method Comparison Section -->
+    <section class="comparison-section">
+        <div class="container">
+            <h2 class="comparison-title">Method Comparison</h2>
+            <div class="comparison-wrapper">
+                <div class="comparison-cards">
+                <!-- Chatsim Card -->
+                <div class="comparison-card">
+                    <div class="comparison-card-title">
+                        Chatsim
+                        <span class="method-type">Agent-Based Method</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-icon fail">✗</span>
+                        <span class="metric-name">Photorealism</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-icon fail">✗</span>
+                        <span class="metric-name">Instruction Alignment</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-icon pass">✓</span>
+                        <span class="metric-name">Structure Preservation</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-icon fail">✗</span>
+                        <span class="metric-name">Traffic Realism</span>
+                    </div>
+                </div>
+
+                <!-- Cosmos Card -->
+                <div class="comparison-card">
+                    <div class="comparison-card-title">
+                        Cosmos
+                        <span class="method-type">Diffusion-Based Method</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-icon pass">✓</span>
+                        <span class="metric-name">Photorealism</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-icon fail">✗</span>
+                        <span class="metric-name">Instruction Alignment</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-icon fail">✗</span>
+                        <span class="metric-name">Structure Preservation</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-icon pass">✓</span>
+                        <span class="metric-name">Traffic Realism</span>
+                    </div>
+                </div>
+
+                <!-- Ours Card -->
+                <div class="comparison-card highlight">
+                    <div class="comparison-card-title">
+                        Ours
+                        <span class="method-type">Agentic Workflow + Diffusion</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-icon pass">✓</span>
+                        <span class="metric-name">Photorealism</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-icon pass">✓</span>
+                        <span class="metric-name">Instruction Alignment</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-icon pass">✓</span>
+                        <span class="metric-name">Structure Preservation</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-icon pass">✓</span>
+                        <span class="metric-name">Traffic Realism</span>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Abstract Section -->
     <section class="abstract-section" id="abstract">
         <div class="container">
@@ -1303,7 +1319,7 @@
     <!-- Method Section -->
     <section class="method-section" id="method">
         <div class="container">
-            <h2 class="section-title">Method</h2>
+            <h2 class="section-title">Pipeline</h2>
             
             <div style="text-align: center;">
                 <img src="figure/piepline.jpg" alt="Method Pipeline" class="method-image">
@@ -1347,9 +1363,10 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const editingTypeSelect = document.getElementById('editing-type');
+            const editingTypeButtons = document.querySelectorAll('.editing-type-btn');
             const categories = document.querySelectorAll('.video-category');
             const allVideoRows = document.querySelectorAll('.video-row');
+            let currentEditingType = 'insertion';
 
             // jsDelivr CDN configuration
             const USE_CDN = true;
@@ -1526,7 +1543,7 @@
 
             // Function to show the selected video row
             function updateDisplay() {
-                const selectedType = editingTypeSelect.value;
+                const selectedType = currentEditingType;
 
                 // Hide all categories first
                 categories.forEach(cat => cat.classList.remove('active'));
@@ -1604,8 +1621,22 @@
                 }
             }
 
-            // Add event listener to editing type select
-            editingTypeSelect.addEventListener('change', updateDisplay);
+            // Add event listeners to editing type buttons
+            editingTypeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    editingTypeButtons.forEach(btn => btn.classList.remove('active'));
+
+                    // Add active class to clicked button
+                    this.classList.add('active');
+
+                    // Update current editing type
+                    currentEditingType = this.getAttribute('data-type');
+
+                    // Update display
+                    updateDisplay();
+                });
+            });
 
             // Initial display
             updateDisplay();
