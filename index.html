@@ -43,14 +43,9 @@
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 0 24px;
-        }
-        
-        .results-section .container {
-            max-width: 100%;
-            padding: 0 40px;
         }
 
         /* Hero Section */
@@ -293,7 +288,6 @@
             gap: 16px;
             max-width: 100%;
             margin: 0 auto;
-            width: 100%;
         }
 
         .video-item {
@@ -334,7 +328,7 @@
         }
 
         .video-row {
-            margin-bottom: 40px;
+            margin-bottom: 50px;
         }
         
         .video-row:last-child {
@@ -344,7 +338,6 @@
         @media (max-width: 1200px) {
             .video-grid {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 16px;
             }
         }
 
@@ -1380,7 +1373,7 @@
                     video.currentTime = 0;
                 });
 
-                // Show the selected category with ALL scenes
+                // Show the selected category
                 const activeCategory = document.querySelector(`.video-category[data-category="${selectedType}"]`);
                 if (activeCategory) {
                     activeCategory.classList.add('active');
@@ -1389,13 +1382,12 @@
                     const activeRows = activeCategory.querySelectorAll('.video-row');
                     activeRows.forEach(row => row.style.display = 'block');
                     
-                    // Load ALL videos in all rows simultaneously
-                    const allVideos = activeCategory.querySelectorAll('video');
-                    const loadPromises = Array.from(allVideos).map(video => loadVideo(video));
+                    // Load ALL videos in ALL scenes simultaneously
+                    const videos = activeCategory.querySelectorAll('video');
+                    const loadPromises = Array.from(videos).map(video => loadVideo(video));
                     
                     // Wait for ALL videos to reach 100% buffer
                     Promise.all(loadPromises).then(() => {
-                        const videos = allVideos;
                             // Short wait to ensure all videos are stable
                             setTimeout(() => {
                                 // Pause and reset all videos to start position
