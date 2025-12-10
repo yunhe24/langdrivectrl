@@ -50,7 +50,7 @@
 
         /* Hero Section */
         .hero {
-            background: #f5f5f5;
+            background: white;
             color: var(--text-primary);
             padding: 50px 24px;
             text-align: center;
@@ -167,7 +167,7 @@
             font-size: 2.2rem;
             font-weight: 700;
             text-align: center;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
             color: var(--text-primary);
         }
 
@@ -182,7 +182,7 @@
         /* Video Gallery */
 
         .video-section .container {
-            max-width: 1400px;
+            max-width: 100%;
             padding: 0 30px;
         }
 
@@ -190,7 +190,7 @@
             display: flex;
             justify-content: center;
             gap: 40px;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
             flex-wrap: wrap;
         }
 
@@ -238,10 +238,10 @@
         }
 
         .video-row {
-            display: none;
+            display: block;
             animation: fadeIn 0.4s ease-out;
-            margin-bottom: 0;
-            padding-bottom: 0;
+            margin-bottom: 15px;
+            padding-bottom: 20px;
         }
 
         @keyframes fadeIn {
@@ -285,7 +285,7 @@
         .video-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
+            gap: 20px;
             max-width: 100%;
             margin: 0 auto;
         }
@@ -327,17 +327,10 @@
             color: var(--text-primary);
         }
 
-        .video-row {
-            margin-bottom: 50px;
-        }
-        
-        .video-row:last-child {
-            margin-bottom: 0;
-        }
-
         @media (max-width: 1200px) {
             .video-grid {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
             }
         }
 
@@ -392,6 +385,104 @@
             background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
             width: 0%;
             transition: width 0.3s;
+        }
+
+        /* Method Comparison Section */
+        .comparison-section {
+            background: #f5f5f5;
+            padding: 50px 0;
+        }
+
+        /* Method Comparison Cards */
+        .comparison-wrapper {
+            margin: 0 auto;
+            max-width: 1000px;
+        }
+
+        .comparison-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .comparison-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .comparison-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 24px;
+            border: 2px solid var(--border);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+
+        .comparison-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .comparison-card.highlight {
+            border-color: #10b981;
+            background: linear-gradient(to bottom, #ffffff, #f0fdf4);
+        }
+
+        .comparison-card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .comparison-card.highlight .comparison-card-title {
+            color: #059669;
+        }
+
+        .metric-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 16px;
+            font-size: 1.3rem;
+            line-height: 1.5;
+        }
+
+        .metric-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .metric-icon {
+            flex-shrink: 0;
+            font-size: 1.35rem;
+            margin-top: 2px;
+        }
+
+        .metric-icon.pass {
+            color: #10b981;
+        }
+
+        .metric-icon.fail {
+            color: #ef4444;
+        }
+
+        .metric-name {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        @media (max-width: 900px) {
+            .comparison-cards {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
         }
 
         /* Abstract Section */
@@ -537,6 +628,79 @@
                     <i class="fas fa-file-pdf"></i>
                     Paper
                 </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Method Comparison Section -->
+    <section class="comparison-section">
+        <div class="container">
+            <h2 class="comparison-title">Method Comparison</h2>
+            <div class="comparison-wrapper">
+                <div class="comparison-cards">
+                <!-- Chatsim Card -->
+                <div class="comparison-card">
+                    <div class="comparison-card-title">Chatsim</div>
+                    <div class="metric-item">
+                        <span class="metric-icon fail">✗</span>
+                        <span class="metric-name">Photorealism</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-icon fail">✗</span>
+                        <span class="metric-name">Instruction Alignment</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-icon pass">✓</span>
+                        <span class="metric-name">Structure Preservation</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-icon fail">✗</span>
+                        <span class="metric-name">Traffic Realism</span>
+                    </div>
+                </div>
+
+                <!-- Cosmos Card -->
+                <div class="comparison-card">
+                    <div class="comparison-card-title">Cosmos</div>
+                    <div class="metric-item">
+                        <span class="metric-icon pass">✓</span>
+                        <span class="metric-name">Photorealism</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-icon fail">✗</span>
+                        <span class="metric-name">Instruction Alignment</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-icon fail">✗</span>
+                        <span class="metric-name">Structure Preservation</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-icon pass">✓</span>
+                        <span class="metric-name">Traffic Realism</span>
+                    </div>
+                </div>
+
+                <!-- Ours Card -->
+                <div class="comparison-card highlight">
+                    <div class="comparison-card-title">Ours</div>
+                    <div class="metric-item">
+                        <span class="metric-icon pass">✓</span>
+                        <span class="metric-name">Photorealism</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-icon pass">✓</span>
+                        <span class="metric-name">Instruction Alignment</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-icon pass">✓</span>
+                        <span class="metric-name">Structure Preservation</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-icon pass">✓</span>
+                        <span class="metric-name">Traffic Realism</span>
+                    </div>
+                </div>
+            </div>
             </div>
         </div>
     </section>
@@ -1377,27 +1541,29 @@
                 const activeCategory = document.querySelector(`.video-category[data-category="${selectedType}"]`);
                 if (activeCategory) {
                     activeCategory.classList.add('active');
-                    
-                    // Show ALL scenes within that category
+
+                    // Show ALL scenes within that category and process each row independently
                     const activeRows = activeCategory.querySelectorAll('.video-row');
-                    activeRows.forEach(row => row.style.display = 'block');
-                    
-                    // Load ALL videos in ALL scenes simultaneously
-                    const videos = activeCategory.querySelectorAll('video');
-                    const loadPromises = Array.from(videos).map(video => loadVideo(video));
-                    
-                    // Wait for ALL videos to reach 100% buffer
-                    Promise.all(loadPromises).then(() => {
-                            // Short wait to ensure all videos are stable
+
+                    activeRows.forEach(row => {
+                        row.style.display = 'block';
+                        const rowVideos = Array.from(row.querySelectorAll('video'));
+
+                        // Load all videos in this row simultaneously
+                        const rowLoadPromises = rowVideos.map(video => loadVideo(video));
+
+                        // Wait for this row's videos to reach 100% buffer
+                        Promise.all(rowLoadPromises).then(() => {
+                            // Short wait to ensure all videos in this row are stable
                             setTimeout(() => {
-                                // Pause and reset all videos to start position
-                                videos.forEach(video => {
+                                // Pause and reset all videos in this row to start position
+                                rowVideos.forEach(video => {
                                     video.pause();
                                     video.currentTime = 0;
                                 });
-                                
+
                                 // Wait for seek operations to complete
-                                const seekPromises = Array.from(videos).map(video => {
+                                const seekPromises = rowVideos.map(video => {
                                     return new Promise(resolve => {
                                         if (video.seeking) {
                                             video.addEventListener('seeked', function onSeeked() {
@@ -1409,32 +1575,32 @@
                                         }
                                     });
                                 });
-                                
+
                                 Promise.all(seekPromises).then(() => {
                                     // Additional small wait for stability
                                     setTimeout(() => {
                                         // Use requestAnimationFrame for precise synchronization
                                         requestAnimationFrame(() => {
                                             requestAnimationFrame(() => {
-                                                // Play all videos in the same frame
-                                                for (let i = 0; i < videos.length; i++) {
-                                                    videos[i].play().catch(() => {});
+                                                // Play all videos in this row in the same frame
+                                                for (let i = 0; i < rowVideos.length; i++) {
+                                                    rowVideos[i].play().catch(() => {});
                                                 }
                                             });
                                         });
                                     }, 100);
                                 });
-                            }, 300); // Wait 300ms after all loaded
+                            }, 300); // Wait 300ms after row loaded
                         }).catch(err => {
-                            console.error('Some videos failed to load:', err);
-                            // Still try to play loaded videos
-                            videos.forEach(video => {
+                            console.error('Some videos in this row failed to load:', err);
+                            // Still try to play loaded videos in this row
+                            rowVideos.forEach(video => {
                                 if (video.readyState >= 3) {
                                     video.play().catch(() => {});
                                 }
                             });
                         });
-                    }
+                    });
                 }
             }
 
