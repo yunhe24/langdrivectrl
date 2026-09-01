@@ -561,9 +561,56 @@
             line-height: 1.8;
         }
 
+        /* Reviewer Agents Section */
+        .reviewer-section {
+            background: #f5f5f5;
+        }
+
+        .reviewer-block + .reviewer-block {
+            margin-top: 56px;
+        }
+
+        .reviewer-title {
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .stat-bar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: baseline;
+            gap: 6px 32px;
+            margin-top: 24px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .stat-before {
+            color: var(--text-muted);
+        }
+
+        .stat-arrow {
+            color: var(--accent);
+            margin: 0 4px;
+        }
+
+        .stat-after {
+            color: var(--accent);
+        }
+
+        .stat-note {
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
         /* BibTeX Section */
         .bibtex-section {
-            background: #f5f5f5;
+            background: white;
         }
 
         .bibtex-container {
@@ -1421,6 +1468,48 @@
                     To execute the instruction, the orchestrator coordinates agents and tools from different modules to work together: the object query module localizes target objects in the scene graph based on textual descriptions; the object node editing module performs object removal, insertion, and replacement; the behavior editing module generates and refines multi-object trajectories based on a feedback loop; finally, the rendering and refinement module renders the edited scene graph and iteratively refines it with a video diffusion tool.
                     While the figure illustrates single-object editing, our pipeline is capable of multi-object editing.
             </p>
+        </div>
+    </section>
+
+    <!-- Reviewer Agents Section -->
+    <section class="reviewer-section" id="reviewers">
+        <div class="container">
+            <h2 class="section-title">Reviewer Agents</h2>
+            <p class="section-subtitle">The Behavior Reviewer refines the generated trajectories, the Video Reviewer refines the rendered result &mdash; both correct in a closed loop.</p>
+
+            <div class="reviewer-block">
+                <h3 class="reviewer-title">Behavior Reviewer Agent</h3>
+
+                <div style="text-align: center;">
+                    <img src="figure/behavior_reviewer.jpg" alt="Behavior Reviewer Agent feedback loop" class="method-image">
+                </div>
+
+                <div class="stat-bar">
+                    <span>Trajectory success <span class="stat-before">34%</span><span class="stat-arrow">&rarr;</span><span class="stat-after">51%</span></span>
+                    <span>Off-road <span class="stat-before">30%</span><span class="stat-arrow">&rarr;</span><span class="stat-after">14%</span></span>
+                </div>
+
+                <p class="method-description">
+                    <strong>Behavior Reviewer Agent.</strong> After the behavior editing agent generates multi-object trajectories, the Behavior Reviewer inspects them against the instruction and reports which maneuvers failed. The behavior editing agent regenerates from that feedback, and the loop repeats until every target maneuver is executed correctly.
+                </p>
+            </div>
+
+            <div class="reviewer-block">
+                <h3 class="reviewer-title">Video Reviewer Agent</h3>
+
+                <div style="text-align: center;">
+                    <img src="figure/video_reviewer.jpg" alt="Video Reviewer Agent refinement loop" class="method-image">
+                </div>
+
+                <div class="stat-bar">
+                    <span>Appearance alignment <span class="stat-before">65%</span><span class="stat-arrow">&rarr;</span><span class="stat-after">85%</span></span>
+                    <span class="stat-note">while improving FID</span>
+                </div>
+
+                <p class="method-description">
+                    <strong>Video Reviewer Agent.</strong> After the video diffusion tool renders the edited scene, the Video Reviewer checks the result for appearance preservation and photorealism. It increases the L2 guidance weight when the appearance drifts and the diffusion strength when the result looks unrealistic, and the loop repeats until both are satisfied.
+                </p>
+            </div>
         </div>
     </section>
 
