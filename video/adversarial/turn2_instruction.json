@@ -1,0 +1,4 @@
+{
+  "instruction_type": "trajectory_modification",
+  "instruction": "Make the gray SUV ahead turn left and the gray mini-van on the oncoming left lane go straight"
+}

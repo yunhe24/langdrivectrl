@@ -77,6 +77,19 @@
             display: inline-block;
         }
 
+        .venue {
+            display: inline-block;
+            margin: 0 0 20px 0;
+            padding: 6px 20px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: linear-gradient(to right, rgba(59, 130, 246, 0.10), rgba(249, 115, 22, 0.10));
+            color: var(--primary-dark);
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
         .authors {
             display: flex;
             flex-wrap: wrap;
@@ -292,6 +305,12 @@
             margin: 0 auto;
         }
 
+        /* Rows that only compare Input vs Ours */
+        .video-grid.two-col {
+            grid-template-columns: repeat(2, 1fr);
+            max-width: 800px;
+        }
+
         .video-item {
             text-align: center;
             display: flex;
@@ -340,6 +359,10 @@
             .video-grid {
                 grid-template-columns: 1fr;
                 gap: 20px;
+            }
+
+            .video-grid.two-col {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -633,10 +656,16 @@
 
             <p class="affiliations"><sup>1</sup>University of Maryland, College Park&nbsp;&nbsp;&nbsp;&nbsp;<sup>2</sup>NEC Labs America&nbsp;&nbsp;&nbsp;&nbsp;<sup>3</sup>UC San Diego</p>
 
+            <div class="venue">ECCV 2026</div>
+
             <div class="btn-group">
                 <a href="https://arxiv.org/abs/2512.17445" class="btn btn-primary" target="_blank">
                     <i class="fas fa-file-pdf"></i>
                     Paper
+                </a>
+                <a href="figure/poster.pdf" class="btn btn-primary" target="_blank">
+                    <i class="fas fa-image"></i>
+                    Poster
                 </a>
             </div>
         </div>
@@ -653,6 +682,7 @@
                     <button class="editing-type-btn" data-type="removal">Removal</button>
                     <button class="editing-type-btn" data-type="replacement">Replacement</button>
                     <button class="editing-type-btn" data-type="trajectory">Trajectory Modification</button>
+                    <button class="editing-type-btn" data-type="adversarial">Adversarial Turn</button>
                 </div>
             </div>
 
@@ -1219,6 +1249,60 @@
                     </div>
                 </div>
             </div>
+
+            <div class="video-category" data-category="adversarial">
+                <div class="video-row" data-scene="0">
+                    <div class="instruction-text">Make the white SUV on the opposite left lane speed up and turn left</div>
+                    <div class="video-grid two-col">
+                        <div class="video-item">
+<video controls muted loop playsinline preload="auto" data-src="video/adversarial/input.mp4" poster="video/posters/adversarial_input.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
+                            <p class="video-label input">Input</p>
+                        </div>
+                        <div class="video-item">
+<video controls muted loop playsinline preload="auto" data-src="video/adversarial/turn1_ours.mp4" poster="video/posters/adversarial_turn1_ours.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
+                            <p class="video-label ours">Ours</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-row" data-scene="1">
+                    <div class="instruction-text">Make the gray SUV ahead turn left and the gray mini-van on the oncoming left lane go straight</div>
+                    <div class="video-grid two-col">
+                        <div class="video-item">
+<video controls muted loop playsinline preload="auto" data-src="video/adversarial/input.mp4" poster="video/posters/adversarial_input.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
+                            <p class="video-label input">Input</p>
+                        </div>
+                        <div class="video-item">
+<video controls muted loop playsinline preload="auto" data-src="video/adversarial/turn2_ours.mp4" poster="video/posters/adversarial_turn2_ours.jpg"></video>
+                            <div class="video-progress">
+                                <div class="progress-text">0%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"></div>
+                                </div>
+                            </div>
+                            <p class="video-label ours">Ours</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -1536,6 +1620,15 @@
                     });
 
                     video.addEventListener('error', function onError() {
+                        // The CDN is pinned to a release tag, so files added after that
+                        // tag 404 there. Fall back to the copy served next to this page.
+                        if (USE_CDN && !video.dataset.cdnFallback) {
+                            video.dataset.cdnFallback = '1';
+                            if (poster) video.poster = poster;
+                            video.src = src;
+                            video.load();
+                            return;
+                        }
                         console.error('Failed to load video:', src);
                         if (simulationInterval) {
                             clearInterval(simulationInterval);
